@@ -53,6 +53,9 @@
                     // include database connection
                     include 'config/database.php';
                     try {
+
+                        $flag = false;
+
                         // posted values
                         $name = htmlspecialchars(strip_tags($_POST['name']));
                         $description = htmlspecialchars(strip_tags($_POST['description']));
@@ -61,25 +64,75 @@
                         $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
                         $expired_date = htmlspecialchars(strip_tags($_POST['expired_date']));
 
-                        // insert query
-                        $query = "INSERT INTO products SET name=:name, description=:description, price=:price, created=:created, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date";
-                        // prepare query for execution
-                        $stmt = $con->prepare($query);
-                        // bind the parameters
-                        $stmt->bindParam(':name', $name);
-                        $stmt->bindParam(':description', $description);
-                        $stmt->bindParam(':price', $price);
-                        $stmt->bindParam(':promotion_price', $promotion_price);
-                        $stmt->bindParam(':manufacture_date', $manufacture_date);
-                        $stmt->bindParam(':expired_date', $expired_date);
-                        // specify when this record was inserted to the database
-                        $created = date('Y-m-d H:i:s');
-                        $stmt->bindParam(':created', $created);
-                        // Execute the query
-                        if ($stmt->execute()) {
-                            echo "<div class='alert alert-success'>Record was saved.</div>";
+                        // True because $a is empty
+                        if (empty($name)) {
+                            echo "<div class='alert alert-danger'>Please insert the Name.</div>";
+                            $flag = true;
+                        } elseif (empty($description)) {
+                            echo "<div class='alert alert-danger'>Please insert the Description.</div>";
+                            $flag = true;
+                        } elseif (empty($price)) {
+                            echo "<div class='alert alert-danger'>Please insert the Price.</div>";
+                            $flag = true;
+                        } elseif (empty($promotion_price)) {
+                            echo "<div class='alert alert-danger'>Please insert the Promotion Price.</div>";
+                            $flag = true;
+                        } elseif (empty($manufacture_date)) {
+                            echo "<div class='alert alert-danger'>Please insert the Manufacture Date.</div>";
+                            $flag = true;
+                        } elseif (empty($expired_date)) {
+                            echo "<div class='alert alert-danger'>Please insert the Expired Date.</div>";
+                            $flag = true;
+                        }
+
+                        // promo price 
+                        if (($_POST["promotion_price"]) > ($_POST['price'])) {
+                            $proErr = "<div class='alert alert-danger'>Promotion price should be cheaper than original price.</div>";
+                            $flag = true;
+                            echo $proErr;
                         } else {
-                            echo "<div class='alert alert-danger'>Unable to save record.</div>";
+                            $promotion_price = $_POST['price'];
+                        }
+
+                        // expired date
+                        if (empty($_POST["expired_date"])) {
+                            $expErr = "<div class='alert alert-danger'>Please enter the expired date.</div>";
+                            $flag = true;
+                            echo $expErr;
+                        } else {
+                            $expired_date = $_POST["expired_date"];
+                            if (($_POST["expired_date"]) < ($_POST["manufacture_date"])) {
+                                $expErr = "<div class='alert alert-danger'>Expired date should be later than manufacture date.</div>";
+                                $flag = true;
+                                echo $expErr;
+                            }
+                        }
+
+                        if ($flag == false) {
+                            // insert query
+                            $query = "INSERT INTO products SET name=:name, description=:description, price=:price, created=:created, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date";
+                            // prepare query for execution
+                            $stmt = $con->prepare($query);
+                            // bind the parameters
+                            $stmt->bindParam(':name', $name);
+                            $stmt->bindParam(':description', $description);
+                            $stmt->bindParam(':price', $price);
+                            $stmt->bindParam(':promotion_price', $promotion_price);
+                            $stmt->bindParam(':manufacture_date', $manufacture_date);
+                            $stmt->bindParam(':expired_date', $expired_date);
+                            // specify when this record was inserted to the database
+
+                            $created = date('Y-m-d H:i:s');
+                            $stmt->bindParam(':created', $created);
+
+                            // Execute the query
+                            if ($stmt->execute()) {
+                                echo "<div class='alert alert-success'>Record was saved.</div>";
+                            } else {
+                                echo "<div class='alert alert-danger'>Unable to save record.</div>";
+                            }
+                        } else {
+                            echo "<div class='alert alert-danger'>Makesure date are correct.</div>";
                         }
                     }
 
@@ -88,43 +141,9 @@
                     catch (PDOException $exception) {
                         die('ERROR: ' . $exception->getMessage());
                     }
-                    // promo price 
-                    if (($_POST["promotion_price"]) > ($_POST['price'])) {
-                        $proErr = "<div class='alert alert-danger'>Promotion price should be cheaper than original price.</div>";
-                        echo $proErr;
-                    } else {
-                        $promotion_price = $_POST['price'];
-                    }
+                }
 
-                    // expired date
-                    if (empty($_POST["expired_date"])) {
-                        $expErr = "<div class='alert alert-danger'>Please enter the expired date.</div>";
-                        echo $expErr;
-                    } else {
-                        $expired_date = $_POST["expired_date"];
-                        if (($_POST["expired_date"]) < ($_POST["manufacture_date"])) {
-                            $expErr = "<div class='alert alert-danger'>Expired date should be later than manufacture date.</div>";
-                            echo $expErr;
-                        }
-                    }
-                }
-                // True because $a is empty
-                if (empty($_POST['name'])) {
-                    echo "<div class='alert alert-danger'>Please insert the Name.</div>";
-                } elseif (empty($_POST['description'])) {
-                    echo "<div class='alert alert-danger'>Please insert the Description.</div>";
-                } elseif (empty($_POST['price'])) {
-                    echo "<div class='alert alert-danger'>Please insert the Price.</div>";
-                } elseif (empty($_POST['promotion_price'])) {
-                    echo "<div class='alert alert-danger'>Please insert the Promotion Price.</div>";
-                } elseif (empty($_POST['manufacture_date'])) {
-                    echo "<div class='alert alert-danger'>Please insert the Manufacture Date.</div>";
-                } elseif (empty($_POST['expired_date'])) {
-                    echo "<div class='alert alert-danger'>Please insert the Expired Date.</div>";
-                }
                 ?>
-
-
 
                 <!-- html form here where the product information will be entered -->
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
