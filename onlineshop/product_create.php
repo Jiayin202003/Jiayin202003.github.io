@@ -49,14 +49,16 @@
                 <!-- html form to create product will be here -->
                 <!-- PHP insert code will be here -->
                 <?php
+                // post, to send out, check is it using same way (post/get)
                 if ($_POST) {
-                    // include database connection
+                    // include database connection, locate file and connect
                     include 'config/database.php';
                     try {
 
+                        // alert signal
                         $flag = false;
 
-                        // posted values
+                        // posted values, label to same var
                         $name = htmlspecialchars(strip_tags($_POST['name']));
                         $description = htmlspecialchars(strip_tags($_POST['description']));
                         $price = htmlspecialchars(strip_tags($_POST['price']));
@@ -109,7 +111,7 @@
                         }
 
                         if ($flag == false) {
-                            // insert query
+                            // insert query, to deal with database, send in 
                             $query = "INSERT INTO products SET name=:name, description=:description, price=:price, created=:created, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date";
                             // prepare query for execution
                             $stmt = $con->prepare($query);
@@ -135,7 +137,6 @@
                             echo "<div class='alert alert-danger'>Makesure date are correct.</div>";
                         }
                     }
-
 
                     // show error
                     catch (PDOException $exception) {
