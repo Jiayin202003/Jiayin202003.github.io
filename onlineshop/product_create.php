@@ -25,10 +25,10 @@
                         <a class="nav-link active" aria-current="page" href="home.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="product_create.php">Create Product</a>
+                        <a class="nav-link" href="product_list.php">Product</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="customer_create.php">Create Customer</a>
+                        <a class="nav-link" href="customer_list.php">Customer</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="contact_us.php">Contact Us</a>
@@ -177,7 +177,7 @@
                             <td></td>
                             <td>
                                 <input type='submit' value='Save' class='btn btn-primary' />
-                                <a href='index.php' class='btn btn-danger'>Back to read products</a>
+                                <a href='product_list.php' class='btn btn-danger'>Back to Read Products</a>
                             </td>
                         </tr>
                     </table>
