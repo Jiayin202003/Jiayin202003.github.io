@@ -40,7 +40,7 @@
 
     <!-- form container -->
     <div class="row fluid bg-color justify-content-center">
-        <div class="col-md-10">
+        <div class="col-md-9 mt-5">
             <div class="top_text m-3 mt-5 ps-3 text-warning">
                 <h2>Contact</h2>
             </div>

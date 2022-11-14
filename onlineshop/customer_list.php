@@ -98,7 +98,7 @@
                         echo "<td>{$registration}</td>";
                         echo "<td>";
                         // read one record
-                        echo "<a href='customer_one.php?username={$username}' class='btn btn-info m-r-1em'>Read</a>";
+                        echo "<a href='customer_read.php?username={$username}' class='btn btn-info m-r-1em'>Read</a>";
 
                         // we will use this links on next part of this post
                         echo "<a href='update.php?username={$username}' class='btn btn-primary m-r-1em'>Edit</a>";
