@@ -9,33 +9,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
 
 <body>
-    <!-- navigation menu -->
-    <nav class="navbar navbar-expand-lg bg-warning mb-3">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="home.php">
-                <img src="img/logo.png" alt="Logo" width="30" height="30">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="home.php">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="product_list.php">Product</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="customer_list.php">Customer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact_us.php">Contact Us</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php
+    include "nav.php"
+    ?>
 
     <!-- container -->
     <div class="container">
@@ -57,7 +33,7 @@
                 // read current record's data
                 try {
                     // prepare select query
-                    $query = "SELECT id, name, description, price FROM products WHERE id = ? LIMIT 0,1";
+                    $query = "SELECT id, name, description, price, promotion_price, manufacture_date, expired_date FROM products WHERE id = ? LIMIT 0,1";
                     $stmt = $con->prepare($query);
 
                     // this is the first question mark
@@ -73,6 +49,9 @@
                     $name = $row['name'];
                     $description = $row['description'];
                     $price = $row['price'];
+                    $promotion_price = $row['promotion_price'];
+                    $manufacture_date = $row['manufacture_date'];
+                    $expired_date = $row['expired_date'];
                 }
 
                 // show error
@@ -80,7 +59,6 @@
                     die('ERROR: ' . $exception->getMessage());
                 }
                 ?>
-
 
 
                 <!-- HTML read one record table will be here -->
@@ -97,6 +75,18 @@
                     <tr>
                         <td>Price</td>
                         <td><?php echo htmlspecialchars($price, ENT_QUOTES);  ?></td>
+                    </tr>
+                    <tr>
+                        <td>Promotion Price</td>
+                        <td><?php echo htmlspecialchars($promotion_price, ENT_QUOTES);  ?></td>
+                    </tr>
+                    <tr>
+                        <td>Manufacture Date</td>
+                        <td><?php echo htmlspecialchars($manufacture_date, ENT_QUOTES);  ?></td>
+                    </tr>
+                    <tr>
+                        <td>Expired Date</td>
+                        <td><?php echo htmlspecialchars($expired_date, ENT_QUOTES);  ?></td>
                     </tr>
                     <tr>
                         <td></td>
