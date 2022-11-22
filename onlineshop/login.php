@@ -23,15 +23,17 @@
                 //set var Error message
                 $useErr =  $pasErr = $statusErr = "";
 
+                // post, to send out, check is it using same way (post/get)
                 if ($_POST) {
 
+                    // include database connection, locate file and connect
                     include 'config/database.php';
 
-                    //find username
+                    //find username, posted values, label to same var
                     $username = htmlspecialchars(strip_tags($_POST['username']));
 
-                    // insert query
-                    $query = "SELECT * FROM customer WHERE username=:username";
+                    // insert query, to deal with database, send in 
+                    $query = "SELECT password, acc_status FROM customer WHERE username=:username";
                     // prepare query for execution
                     $stmt = $con->prepare($query);
                     // bind the parameters
@@ -40,55 +42,36 @@
                     $stmt->execute();
                     $num = $stmt->rowCount();
 
-                    //if num 1 found username from database
+                    //if num 1 = found username from database
                     if ($num > 0) {
 
-                        //find password
-                        $password = md5($_POST['password']);
+                        // store retrieved row to a variable
+                        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                        // insert query //password and username must be match only can login
-                        $query = "SELECT * FROM customer WHERE password=:password and username=:username";
-                        // prepare query for execution
-                        $stmt = $con->prepare($query);
-                        // bind the parameters
-                        $stmt->bindParam(':password', $password);
-                        $stmt->bindParam(':username', $username);
-                        // Execute the query
-                        $stmt->execute();
-                        $num = $stmt->rowCount();
+                        // values to fill up our form
+                        $password = $row['password'];
+                        $acc_status = $row['acc_status'];
 
-                        //if num 1 found password from database & direct to homepage
-                        if ($num > 0) {
-
-                            // account ban
-                            $acc_status = 'Active';
-
-                            $result = "SELECT * FROM customer WHERE username=:username and acc_status=:acc_status ";
-
-                            $stmt = $con->prepare($result);
-                            $stmt->bindParam(':username', $username);
-                            $stmt->bindParam(':acc_status', $acc_status);
-                            $stmt->execute();
-                            $num = $stmt->rowCount();
-
-                            if ($num > 0) {
+                        if ($password == md5($_POST['password'])) {
+                            if ($acc_status == 'Active') {
                                 header("Location: http://localhost/webdev/onlineshop/home.php");
                             } else {
-                                $statusErr = "Your account is ban*";
+                                $statusErr = "Your Account is Suspended*";
                             }
                         } else {
                             $pasErr = "Incorrect Password*";
                         }
                     } else {
-                        $useErr = "User not found *";
+                        $useErr = "User not found*";
                     }
                 }
                 ?>
 
+                <!--HTML, result will be displayed-->
                 <main class="form-signin">
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <div class="display-flex pt-5 mt-5">
-                            <form>
+                            <div>
                                 <img src="img/logo_yellow.png" alt="Logo" width="50" height="50">
                                 <h1 class="h5 mt-3 mb-3 fw-normal">Please Sign-in.</h1>
 
@@ -120,9 +103,9 @@
                                     <button class="w-100 btn btn-lg btn-warning mt-3" type="submit">Sign in</button>
                                 </div>
 
-                        </div>
+                            </div>
 
-                        <p class="mt-5 text-muted">&copy; 2017–2021</p>
+                            <p class="mt-5 text-muted">&copy; 2017–2021</p>
                     </form>
         </div>
         </main>
