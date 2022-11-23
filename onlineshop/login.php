@@ -51,21 +51,12 @@ session_start();
                     //if num 1 = found username from database
                     if ($num > 0) {
 
-                        //find password
-                        //md5, encryption, dummy text replace ori pw in SQL
-                        $password = md5($_POST['password']);
+                        // store retrieved row to a variable
+                        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                        // insert query 
-                        //password and username must be match only can login
-                        $query = "SELECT * FROM customer WHERE password=:password and username=:username";
-                        // prepare query for execution
-                        $stmt = $con->prepare($query);
-                        // bind the parameters
-                        $stmt->bindParam(':password', $password);
-                        $stmt->bindParam(':username', $username);
-                        // Execute the query
-                        $stmt->execute();
-                        $num = $stmt->rowCount();
+                        // values to fill up our form
+                        $password = $row['password'];
+                        $acc_status = $row['acc_status'];
 
                         if ($password == md5($_POST['password'])) {
                             if ($acc_status == 'Active') {
