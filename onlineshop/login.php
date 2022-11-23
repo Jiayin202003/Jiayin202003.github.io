@@ -1,6 +1,3 @@
-<?php
-session_start(); ?>
-
 <!DOCTYPE HTML>
 <html>
 
@@ -34,11 +31,19 @@ session_start(); ?>
                     // include database connection, locate file and connect
                     include 'config/database.php';
 
+<<<<<<< HEAD
                     // posted values, label to same var
                     $username = htmlspecialchars(strip_tags($_POST['username']));
 
                     // insert query, to deal with database, send in
                     $query = "SELECT * FROM customer WHERE username=:username";
+=======
+                    //find username, posted values, label to same var
+                    $username = htmlspecialchars(strip_tags($_POST['username']));
+
+                    // insert query, to deal with database, send in 
+                    $query = "SELECT password, acc_status FROM customer WHERE username=:username";
+>>>>>>> fc7dcf428c54e289957672e6d3c28ffca10161e7
                     // prepare query for execution
                     $stmt = $con->prepare($query);
                     // bind the parameters
@@ -47,9 +52,10 @@ session_start(); ?>
                     $stmt->execute();
                     $num = $stmt->rowCount();
 
-                    //if num 1 found username from database
+                    //if num 1 = found username from database
                     if ($num > 0) {
 
+<<<<<<< HEAD
                         //find password
                         //md5, encryption, dummy text replace ori pw in SQL
                         $password = md5($_POST['password']);
@@ -65,42 +71,45 @@ session_start(); ?>
                         // Execute the query
                         $stmt->execute();
                         $num = $stmt->rowCount();
+=======
+                        // store retrieved row to a variable
+                        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                        //if num 1 found password from database & direct to homepage
-                        if ($num > 0) {
+                        // values to fill up our form
+                        $password = $row['password'];
+                        $acc_status = $row['acc_status'];
+>>>>>>> fc7dcf428c54e289957672e6d3c28ffca10161e7
 
-                            // account ban
-                            $acc_status = 'Active';
-
-                            $result = "SELECT * FROM customer WHERE username=:username and acc_status=:acc_status ";
-
-                            $stmt = $con->prepare($result);
-                            $stmt->bindParam(':username', $username);
-                            $stmt->bindParam(':acc_status', $acc_status);
-                            $stmt->execute();
-                            $num = $stmt->rowCount();
-
-                            if ($num > 0) {
+                        if ($password == md5($_POST['password'])) {
+                            if ($acc_status == 'Active') {
                                 header("Location: http://localhost/webdev/onlineshop/home.php");
                                 // Set session variables
                                 $_SESSION["user"] = $_POST['username'];
                             } else {
+<<<<<<< HEAD
                                 $statusErr = "Your Account is suspended*";
+=======
+                                $statusErr = "Your Account is Suspended*";
+>>>>>>> fc7dcf428c54e289957672e6d3c28ffca10161e7
                             }
                         } else {
                             $pasErr = "Incorrect Password*";
                         }
                     } else {
-                        $useErr = "User not found *";
+                        $useErr = "User not found*";
                     }
                 }
                 ?>
 
+<<<<<<< HEAD
                 <!-- HTML will be here -->
+=======
+                <!--HTML, result will be displayed-->
+>>>>>>> fc7dcf428c54e289957672e6d3c28ffca10161e7
                 <main class="form-signin">
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <div class="display-flex pt-5 mt-5">
-                            <form>
+                            <div>
                                 <img src="img/logo_yellow.png" alt="Logo" width="50" height="50">
                                 <h1 class="h5 mt-3 mb-3 fw-normal">Please Sign-in.</h1>
 
@@ -127,9 +136,9 @@ session_start(); ?>
                                     <button class="w-100 btn btn-lg btn-warning mt-3" type="submit">Sign in</button>
                                 </div>
 
-                        </div>
+                            </div>
 
-                        <p class="mt-5 text-muted">&copy; 2017–2021</p>
+                            <p class="mt-5 text-muted">&copy; 2017–2021</p>
                     </form>
         </div>
         </main>

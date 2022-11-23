@@ -20,7 +20,7 @@
         <div class="row fluid bg-color justify-content-center">
             <div class="col-md-10">
                 <div class="page-header top_text mt-5 mb-3 text-warning">
-                    <h2>Create Customer</h2>
+                    <h2>Create Customerrr</h2>
                 </div>
 
                 <!-- html form to create product will be here -->
@@ -108,6 +108,26 @@
 
                         //if num 1 = found username from database
                         if ($num > 0) {
+                            echo "<div class='alert alert-danger'>Username has been taken.</div>";
+                            $flag = true;
+                        }
+
+                        // insert query, to deal with database, send in 
+                        $query = "SELECT username FROM customer WHERE username=:username";
+                        // prepare query for execution
+                        $stmt = $con->prepare($query);
+                        // bind the parameters
+                        $stmt->bindParam(':username', $username);
+                        // Execute the query
+                        $stmt->execute();
+                        $num = $stmt->rowCount();
+
+                        echo $num;
+                        echo "error";
+
+                        //if num 1 = found username from database
+                        if ($num > 0) {
+
                             echo "<div class='alert alert-danger'>Username has been taken.</div>";
                             $flag = true;
                         }
