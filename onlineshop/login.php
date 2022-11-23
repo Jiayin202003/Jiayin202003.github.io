@@ -23,14 +23,16 @@
                 //set var Error message
                 $useErr =  $pasErr = $statusErr = "";
 
+                // post, to send out, check is it using same way (post/get)
                 if ($_POST) {
 
+                    // include database connection, locate file and connect
                     include 'config/database.php';
 
-                    //find username
+                    // posted values, label to same var
                     $username = htmlspecialchars(strip_tags($_POST['username']));
 
-                    // insert query
+                    // insert query, to deal with database, send in
                     $query = "SELECT * FROM customer WHERE username=:username";
                     // prepare query for execution
                     $stmt = $con->prepare($query);
@@ -44,9 +46,11 @@
                     if ($num > 0) {
 
                         //find password
+                        //md5, encryption, dummy text replace ori pw in SQL
                         $password = md5($_POST['password']);
 
-                        // insert query //password and username must be match only can login
+                        // insert query 
+                        //password and username must be match only can login
                         $query = "SELECT * FROM customer WHERE password=:password and username=:username";
                         // prepare query for execution
                         $stmt = $con->prepare($query);
@@ -74,7 +78,7 @@
                             if ($num > 0) {
                                 header("Location: http://localhost/webdev/onlineshop/home.php");
                             } else {
-                                $statusErr = "Your account is ban*";
+                                $statusErr = "Your Account is suspended*";
                             }
                         } else {
                             $pasErr = "Incorrect Password*";
@@ -85,6 +89,7 @@
                 }
                 ?>
 
+                <!-- HTML will be here -->
                 <main class="form-signin">
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <div class="display-flex pt-5 mt-5">
