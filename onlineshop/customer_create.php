@@ -20,13 +20,14 @@
         <div class="row fluid bg-color justify-content-center">
             <div class="col-md-10">
                 <div class="page-header top_text mt-5 mb-3 text-warning">
-                    <h2>Create Customerrr</h2>
+                    <h2>Create Customer</h2>
                 </div>
 
                 <!-- html form to create product will be here -->
                 <!-- PHP insert code will be here -->
                 <?php
 
+                // get = viewable in url, post is private (use for sensitive data)
                 if (isset($_GET["action"])) {
                     if ($_GET["action"] == "success") {
                         echo "<div class='alert alert-success'>Record was saved.</div>";
@@ -56,16 +57,20 @@
                             echo "<div class='alert alert-danger'>Please insert the Username.</div>";
                             $flag = true;
                         }
+                        // section1:password
                         if (empty($password)) {
                             echo "<div class='alert alert-danger'>Please insert the Password.</div>";
                             $flag = true;
                         }
+                        // section2:confirm password
                         if (empty($confirm_pass)) {
                             echo "<div class='alert alert-danger'>Please confirm the Password.</div>";
                             $flag = true;
+                            // compare 'sec1' + 'sec2' = izzit the same
                         } else if ($_POST['password'] == $_POST['confirm_password']) {
                             $password = md5($_POST['password']);
                         } else {
+                            // if is not same 
                             echo "<div class='alert alert-danger'>Password not match.</div>";
                             $flag = true;
                         }
@@ -87,6 +92,7 @@
                         } else {
                             $date_of_birth = $_POST["date_of_birth"];
                             $date2 = date("Y-m-d");
+                            //strtotime = text -> date format
                             $diff = (strtotime($date2) - strtotime($date_of_birth));
                             $years = floor($diff / (365 * 60 * 60 * 24));
 
