@@ -11,7 +11,8 @@
 
 <body>
     <?php
-    include "nav.php"
+    include 'nav.php';
+    include 'session.php';
     ?>
 
     <!-- container -->
@@ -25,6 +26,13 @@
                 <!-- html form to create product will be here -->
                 <!-- PHP insert code will be here -->
                 <?php
+
+                if (isset($_GET["action"])) {
+                    if ($_GET["action"] == "success") {
+                        echo "<div class='alert alert-success'>Record was saved.</div>";
+                    }
+                }
+
                 // post, to send out, check is it using same way (post/get)
                 if ($_POST) {
                     // include database connection, locate file and connect
@@ -41,30 +49,66 @@
                         $first_name = htmlspecialchars(strip_tags($_POST['first_name']));
                         $last_name = htmlspecialchars(strip_tags($_POST['last_name']));
                         if (isset($_POST["gender"])) $gender = ($_POST['gender']);
-                        if (isset($_POST['date_of_birth'])) $date_of_birth = $_POST['date_of_birth'];
-
+                        $date_of_birth = $_POST['date_of_birth'];
 
                         // True because $a is empty
                         if (empty($username)) {
                             echo "<div class='alert alert-danger'>Please insert the Username.</div>";
                             $flag = true;
-                        } elseif (empty($password)) {
+                        }
+                        if (empty($password)) {
                             echo "<div class='alert alert-danger'>Please insert the Password.</div>";
                             $flag = true;
-                        } elseif (empty($confirm_pass)) {
+                        }
+                        if (empty($confirm_pass)) {
                             echo "<div class='alert alert-danger'>Please confirm the Password.</div>";
                             $flag = true;
-                        } elseif (empty($first_name)) {
+                        } else if ($_POST['password'] == $_POST['confirm_password']) {
+                            $password = md5($_POST['password']);
+                        } else {
+                            echo "<div class='alert alert-danger'>Password not match.</div>";
+                            $flag = true;
+                        }
+                        if (empty($first_name)) {
                             echo "<div class='alert alert-danger'>Please insert the First Name.</div>";
                             $flag = true;
-                        } elseif (empty($last_name)) {
+                        }
+                        if (empty($last_name)) {
                             echo "<div class='alert alert-danger'>Please insert the Last Name.</div>";
                             $flag = true;
-                        } elseif (empty($gender)) {
+                        }
+                        if (empty($gender)) {
                             echo "<div class='alert alert-danger'>Please insert the Gender.</div>";
                             $flag = true;
-                        } elseif (empty($date_of_birth)) {
+                        }
+                        if (empty($date_of_birth)) {
                             echo "<div class='alert alert-danger'>Please insert the Date of Birth.</div>";
+                            $flag = true;
+                        } else {
+                            $date_of_birth = $_POST["date_of_birth"];
+                            $date2 = date("Y-m-d");
+                            $diff = (strtotime($date2) - strtotime($date_of_birth));
+                            $years = floor($diff / (365 * 60 * 60 * 24));
+
+                            if ($years < 18) {
+                                echo "<div class='alert alert-danger'>You have to be 18 years old and above.*</div>";
+                                $flag = true;
+                            }
+                        }
+
+                        // insert query, to deal with database, send in 
+                        $query = "SELECT username FROM customer WHERE username=:username";
+                        // prepare query for execution
+                        $stmt = $con->prepare($query);
+                        // bind the parameters
+                        $stmt->bindParam(':username', $username);
+                        // Execute the query
+                        $stmt->execute();
+                        $num = $stmt->rowCount();
+
+                        //if num 1 = found username from database
+                        if ($num > 0) {
+                            echo "<div class='alert alert-danger'>Username has been taken.</div>";
                             $flag = true;
                         }
 
@@ -88,12 +132,12 @@
 
                             // Execute the query
                             if ($stmt->execute()) {
-                                echo "<div class='alert alert-success'>Record was saved.</div>";
+                                header("Location: http://localhost/webdev/onlineshop/customer_create.php?action=success");
                             } else {
                                 echo "<div class='alert alert-danger'>Unable to save record.</div>";
                             }
                         } else {
-                            echo "<div class='alert alert-danger'>Makesure date are correct.</div>";
+                            echo "<div class='alert alert-danger'>Makesure data are correct.</div>";
                         }
                     }
 

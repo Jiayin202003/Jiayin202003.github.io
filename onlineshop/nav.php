@@ -21,6 +21,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="contact_us.php">Contact Us</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="logout.php">Log Out</a>
+                </li>
             </ul>
         </div>
     </div>

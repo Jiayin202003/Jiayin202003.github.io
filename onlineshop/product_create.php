@@ -11,7 +11,8 @@
 
 <body>
     <?php
-    include "nav.php"
+    include 'nav.php';
+    include 'session.php';
     ?>
 
     <!-- container -->

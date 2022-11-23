@@ -1,3 +1,6 @@
+<?php
+session_start(); ?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -19,7 +22,9 @@
             </head>
 
             <body class="text-center">
+
                 <?php
+
                 //set var Error message
                 $useErr =  $pasErr = $statusErr = "";
 
@@ -77,6 +82,8 @@
 
                             if ($num > 0) {
                                 header("Location: http://localhost/webdev/onlineshop/home.php");
+                                // Set session variables
+                                $_SESSION["user"] = $_POST['username'];
                             } else {
                                 $statusErr = "Your Account is suspended*";
                             }
@@ -114,11 +121,6 @@
                                                                                                             echo $_POST['password'];
                                                                                                         } ?>'>
                                     <label for="password ">Password</label>
-                                </div>
-
-                                <div class="form-check mt-3">
-                                    <input type="checkbox" value="remember-me" />
-                                    <label>Remember Me</label>
                                 </div>
 
                                 <div class="form-floating">
