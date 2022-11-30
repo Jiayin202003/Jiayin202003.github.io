@@ -1,3 +1,9 @@
+<?php
+//security guard, need to be at the very first
+//usually placed here
+include 'session.php';
+?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -8,10 +14,10 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
 
+
 <body>
     <?php
     include 'nav.php';
-    include 'session.php';
     ?>
 
     <!-- container -->
