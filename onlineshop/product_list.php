@@ -1,3 +1,9 @@
+<?php
+//security guard, need to be at the very first
+//usually placed here
+include 'session.php';
+?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -7,11 +13,11 @@
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="icon" href="img/logo_yellow.png" sizes="32x32" type="image/png">
 
 <body>
     <?php
     include 'nav.php';
-    include 'session.php';
     ?>
 
     <!-- container -->
@@ -73,7 +79,7 @@
                         echo "<a href='product_read.php?id={$id}' class='btn btn-info m-r-1em'>Read</a>";
 
                         // we will use this links on next part of this post
-                        echo "<a href='update.php?id={$id}' class='btn btn-primary m-r-1em'>Edit</a>";
+                        echo "<a href='product_update.php?id={$id}' class='btn btn-primary m-r-1em'>Edit</a>";
 
                         // we will use this links on next part of this post
                         echo "<a href='#' onclick='delete_user({$id});'  class='btn btn-danger'>Delete</a>";

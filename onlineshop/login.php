@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+
 ?>
 
 <!DOCTYPE HTML>
@@ -9,6 +11,7 @@ session_start();
     <title>Log in</title>
     <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="icon" href="img/logo_yellow.png" sizes="32x32" type="image/png">
 
 </head>
 
@@ -16,16 +19,11 @@ session_start();
 <div class="container">
     <div class="row fluid bg-color justify-content-center">
         <div class="col-md-3 mt-5">
-
-            <!-- Custom styles for this template -->
-            <link rel="icon" href="img/logo_yellow.png" sizes="32x32" type="image/png">
-            <link href="signin.css" rel="stylesheet">
             </head>
 
             <body class="text-center">
 
                 <?php
-
                 //set var Error message
                 $useErr =  $pasErr = $statusErr = "";
 
@@ -60,11 +58,11 @@ session_start();
 
                         if ($password == md5($_POST['password'])) {
                             if ($acc_status == 'active') {
-                                header("Location: http://localhost/webdev/onlineshop/home.php");
                                 // Set session variables
                                 // Store 'username' to user (box)
                                 // $_POST username = what user fill in
                                 $_SESSION["user"] = $_POST['username'];
+                                header("Location: http://localhost/webdev/onlineshop/home.php");
                             } else {
                                 $statusErr = "Your Account is suspended*";
                             }
@@ -72,7 +70,7 @@ session_start();
                             $pasErr = "Incorrect Password*";
                         }
                     } else {
-                        $useErr = "User not found*";
+                        $useErr = "<div class='alert alert-danger'>User not found*</div>";
                     }
                 }
                 ?>
@@ -84,6 +82,13 @@ session_start();
                             <div>
                                 <img src="img/logo_yellow.png" alt="Logo" width="50" height="50">
                                 <h1 class="h5 mt-3 mb-3 fw-normal">Please Sign-in.</h1>
+
+                                <?php
+                                if (isset($_GET["action"])) {
+                                    if ($_GET["action"] = "declined") {
+                                        echo "<div class='alert alert-danger'>Please sign-in before access</div>";
+                                    }
+                                } ?>
 
                                 <!--echo error msg-->
                                 <span class="error"><?php echo $useErr; ?></span>

@@ -1,3 +1,9 @@
+<?php
+//security guard, need to be at the very first
+//usually placed here
+include 'session.php';
+?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -11,7 +17,6 @@
 <body>
     <?php
     include 'nav.php';
-    include 'session.php';
     ?>
 
     <!-- container -->
