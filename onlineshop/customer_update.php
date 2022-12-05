@@ -36,16 +36,16 @@ include 'session.php';
 
                 // get passed parameter value, in this case, the record ID
                 // isset() is a PHP function used to verify if a value is there or not
-                $username = isset($_GET['username']) ? $_GET['username'] : die('ERROR: Record ID not found.');
+                $customer_id = isset($_GET['customer_id']) ? $_GET['customer_id'] : die('ERROR: Record ID not found.');
 
                 // read current record's data
                 try {
                     // prepare select query
-                    $query = "SELECT username, password, first_name, last_name, gender, date_of_birth, registration FROM customer WHERE username = ? LIMIT 0,1";
+                    $query = "SELECT customer_id, username, password, first_name, last_name, gender, date_of_birth FROM customer WHERE customer_id = ? LIMIT 0,1";
                     $stmt = $con->prepare($query);
 
                     // this is the first question mark
-                    $stmt->bindParam(1, $username);
+                    $stmt->bindParam(1, $customer_id);
 
                     // execute our query
                     $stmt->execute();
@@ -54,6 +54,7 @@ include 'session.php';
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
                     // get values to fill up our form from database 
+                    $customer_id = $row['customer_id'];
                     $username = $row['username'];
                     $password = $row['password'];
                     $first_name = $row['first_name'];
@@ -69,50 +70,69 @@ include 'session.php';
                 ?>
 
                 <?php
-                // check if form was submitted
+                // check if form was submitted, after submit
                 if ($_POST) {
-                    try {
 
-                        // alert signal
-                        $flag = false;
+                    // alert signal
+                    $flag = false;
 
-                        // write update query
-                        // in this case, it seemed like we have so many fields to pass and
-                        // it is better to label them and not use question marks
-                        $query = "UPDATE customer SET password=:password, first_name=:first_name, last_name=:last_name, gender=:gender, date_of_birth=:date_of_birth WHERE username=:username";
+                    // take form posted values
+                    $username = htmlspecialchars(strip_tags($_POST['username']));
+                    $first_name = htmlspecialchars(strip_tags($_POST['first_name']));
+                    $last_name = htmlspecialchars(strip_tags($_POST['last_name']));
+                    $gender = htmlspecialchars(strip_tags($_POST['gender']));
+                    $date_of_birth = htmlspecialchars(strip_tags($_POST['date_of_birth']));
 
-                        // prepare query for excecution
-                        $stmt = $con->prepare($query);
+                    //checking, username should not be empty
+                    if (empty($_POST['username'])) {
+                        echo "<div class='alert alert-danger'>Username should not be empty.</div>";
+                        $flag = true;
+                    }
 
-                        // posted values
-                        $username = htmlspecialchars(strip_tags($_POST['username']));
-                        $first_name = htmlspecialchars(strip_tags($_POST['first_name']));
-                        $last_name = htmlspecialchars(strip_tags($_POST['last_name']));
-                        $gender = htmlspecialchars(strip_tags($_POST['gender']));
-                        $date_of_birth = htmlspecialchars(strip_tags($_POST['date_of_birth']));
+                    //checking, if password column are filled 
+                    if (!empty($_POST['old_password'])) {
 
+                        //compare '$old_pass' with '$password(in database)' 
+                        if (md5($_POST['old_password']) == $password) {
 
-                        if (empty(md5($_POST['new_password']))) {
+                            //compare '$new_pass' with '$password(in database)'
+                            if (md5($_POST['password']) == md5($_POST['old_password'])) {
+                                echo "<div class='alert alert-danger'>New password should not be same with Old password.</div>";
+                                $flag = true;
+                            } else {
+                                $password = md5($_POST['password']);
+                            }
 
-                            //compare '$old_pass' with '$password(in database)' 
-                            if (md5($_POST['old_password']) == $password) {
-
-                                // compare = izzit the same
-                                if (md5($_POST['new_password']) == md5($_POST['confirm_password'])) {
-                                    $password = md5($_POST['new_password']);
-                                } else {
-                                    // if is not same 
-                                    echo "<div class='alert alert-danger'>Password not match.</div>";
+                            //if comfirm_password empty
+                            if (empty($_POST['confirm_password'])) {
+                                echo "<div class='alert alert-danger'>Please confirm password.</div>";
+                                $flag = true;
+                            } else {
+                                $confirm_password = ($_POST['confirm_password']);
+                                //if '$new_pass' does not match with '$confirm_pass'
+                                if (($_POST['password']) != ($_POST['confirm_password'])) {
+                                    echo "<div class='alert alert-danger'>New password and Confrim password should be the same.</div>";
                                     $flag = true;
                                 }
-                            } else {
-                                echo "<div class='alert alert-danger'>Password not correct.</div>";
-                                $flag = true;
                             }
+                        } else {
+                            echo "<div class='alert alert-danger'>Password not correct.</div>";
+                            $flag = true;
                         }
+                    }
 
-                        if ($flag == false) {
-                            // bind the parameters
+                    if ($flag == false) {
+                        //if no error, process to UPDATE, bind the parameters
+
+                        try {
+                            // write update query
+                            // in this case, it seemed like we have so many fields to pass and
+                            // it is better to label them and not use question marks
+                            $query = "UPDATE customer SET username=:username,password=:password, first_name=:first_name, last_name=:last_name, gender=:gender, date_of_birth=:date_of_birth WHERE customer_id=:customer_id";
+
+                            // prepare query for excecution
+                            $stmt = $con->prepare($query);
+                            $stmt->bindParam(':customer_id', $customer_id);
                             $stmt->bindParam(':username', $username);
                             $stmt->bindParam(':password', $password);
                             $stmt->bindParam(':first_name', $first_name);
@@ -127,10 +147,10 @@ include 'session.php';
                                 echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
                             }
                         }
-                    }
-                    // show errors
-                    catch (PDOException $exception) {
-                        die('ERROR: ' . $exception->getMessage());
+                        // show errors
+                        catch (PDOException $exception) {
+                            die('ERROR: ' . $exception->getMessage());
+                        }
                     }
                 } ?>
 
@@ -138,7 +158,7 @@ include 'session.php';
                 <!--we have our html table here where the record will be displayed-->
                 <!-- PHP post to update record will be here -->
                 <!--we have our html form here where new record information can be updated-->
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?username={$username}"); ?>" method="post">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?customer_id={$customer_id}"); ?>" method="post">
                     <table class='table table-hover table-responsive table-bordered'>
                         <tr>
                             <td>Username</td>
@@ -154,11 +174,11 @@ include 'session.php';
                         </tr>
                         <tr>
                             <td>New Password</td>
-                            <td><input type='password' name='new_password' class='form-control' value='<?php
-                                                                                                        if (isset($_POST['new_password'])) {
-                                                                                                            echo $_POST['new_password'];
-                                                                                                        }
-                                                                                                        ?>' /></td>
+                            <td><input type='password' name='password' class='form-control' value='<?php
+                                                                                                    if (isset($_POST['password'])) {
+                                                                                                        echo $_POST['password'];
+                                                                                                    }
+                                                                                                    ?>' /></td>
                         </tr>
                         <tr>
                             <td>Confirm Password</td>

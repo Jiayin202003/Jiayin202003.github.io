@@ -35,16 +35,16 @@ include 'session.php';
 
                 // get passed parameter value, in this case, the record ID
                 // isset() is a PHP function used to verify if a value is there or not
-                $username = isset($_GET['username']) ? $_GET['username'] : die('ERROR: Record ID not found.');
+                $customer_id = isset($_GET['customer_id']) ? $_GET['customer_id'] : die('ERROR: Record ID not found.');
 
                 // read current record's data
                 try {
                     // prepare select query
-                    $query = "SELECT username, first_name, last_name, gender, date_of_birth, registration FROM customer WHERE username = ? LIMIT 0,1";
+                    $query = "SELECT customer_id, username, first_name, last_name, gender, date_of_birth, registration FROM customer WHERE customer_id = ? LIMIT 0,1";
                     $stmt = $con->prepare($query);
 
                     // this is the first question mark
-                    $stmt->bindParam(1, $username);
+                    $stmt->bindParam(1, $customer_id);
 
                     // execute our query
                     $stmt->execute();
@@ -53,6 +53,7 @@ include 'session.php';
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
                     // values to fill up our form
+                    $customer_id = $row['customer_id'];
                     $username = $row['username'];
                     $first_name = $row['first_name'];
                     $last_name = $row['last_name'];

@@ -19,6 +19,9 @@
                     <a class="nav-link" href="customer_list.php">Customer</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="order_create.php">Order</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="contact_us.php">Contact Us</a>
                 </li>
                 <li class="nav-item">

@@ -1,16 +1,20 @@
-// posted values, values to fill up our form
-$name = $row['name'];
-$description = $row['description'];
-$price = $row['price'];
-$promotion_price = $row['promotion_price'];
-$manufacture_date = $row['manufacture_date'];
-$expired_date = $row['expired_date'];
+<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+    <table class='table table-hover table-responsive table-bordered mb-5'>
+        <div class="row">
+            <label class="order-form-label">Username</label>
+        </div>
 
-// bind the parameters
-$stmt->bindParam(':name', $name);
-$stmt->bindParam(':description', $description);
-$stmt->bindParam(':price', $price);
-$stmt->bindParam(':promotion_price', $promotion_price);
-$stmt->bindParam(':manufacture_date', $manufacture_date);
-$stmt->bindParam(':expired_date', $expired_date);
-$stmt->bindParam(':id', $id);
+        <div class="col-6 mb-2">
+            <span class="error"><?php echo $userErr; ?></span>
+            <select class="form-select" name="customer_id" aria-label="form-select-lg example">
+                <opyion selected>Choose Username</option>
+                    <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        extract($row); ?>
+                        <option value="<?php $customer_id; ?>"><?php echo htmlspecialchars($username, ENT_QUOTES); ?></option>
+                    <?php }
+                    ?>
+
+            </select>
+        </div>
+    </table>
+</form>
