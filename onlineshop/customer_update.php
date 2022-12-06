@@ -36,9 +36,11 @@ include 'session.php';
 
                 // get passed parameter value, in this case, the record ID
                 // isset() is a PHP function used to verify if a value is there or not
+                //shortcut for if else, pass 'id' to database through URL
                 $customer_id = isset($_GET['customer_id']) ? $_GET['customer_id'] : die('ERROR: Record ID not found.');
 
                 // read current record's data
+                // read data > insert to text fill, update it
                 try {
                     // prepare select query
                     $query = "SELECT customer_id, username, password, first_name, last_name, gender, date_of_birth FROM customer WHERE customer_id = ? LIMIT 0,1";
@@ -77,17 +79,11 @@ include 'session.php';
                     $flag = false;
 
                     // take form posted values
-                    $username = htmlspecialchars(strip_tags($_POST['username']));
                     $first_name = htmlspecialchars(strip_tags($_POST['first_name']));
                     $last_name = htmlspecialchars(strip_tags($_POST['last_name']));
                     $gender = htmlspecialchars(strip_tags($_POST['gender']));
                     $date_of_birth = htmlspecialchars(strip_tags($_POST['date_of_birth']));
 
-                    //checking, username should not be empty
-                    if (empty($_POST['username'])) {
-                        echo "<div class='alert alert-danger'>Username should not be empty.</div>";
-                        $flag = true;
-                    }
 
                     //checking, if password column are filled 
                     if (!empty($_POST['old_password'])) {
@@ -128,12 +124,11 @@ include 'session.php';
                             // write update query
                             // in this case, it seemed like we have so many fields to pass and
                             // it is better to label them and not use question marks
-                            $query = "UPDATE customer SET username=:username,password=:password, first_name=:first_name, last_name=:last_name, gender=:gender, date_of_birth=:date_of_birth WHERE customer_id=:customer_id";
+                            $query = "UPDATE customer SET password=:password, first_name=:first_name, last_name=:last_name, gender=:gender, date_of_birth=:date_of_birth WHERE customer_id=:customer_id";
 
                             // prepare query for excecution
                             $stmt = $con->prepare($query);
                             $stmt->bindParam(':customer_id', $customer_id);
-                            $stmt->bindParam(':username', $username);
                             $stmt->bindParam(':password', $password);
                             $stmt->bindParam(':first_name', $first_name);
                             $stmt->bindParam(':last_name', $last_name);
@@ -162,7 +157,7 @@ include 'session.php';
                     <table class='table table-hover table-responsive table-bordered'>
                         <tr>
                             <td>Username</td>
-                            <td><input type='text' name='username' value="<?php echo htmlspecialchars($username, ENT_QUOTES);  ?>" class='form-control' /></td>
+                            <td><?php echo htmlspecialchars($username, ENT_QUOTES);  ?></td>
                         </tr>
                         <tr>
                             <td>Old Password</td>
