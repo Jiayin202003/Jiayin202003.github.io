@@ -8,7 +8,7 @@ include 'session.php';
 <html>
 
 <head>
-    <title>J_ContactUs</title>
+    <title>ContactUs</title>
     <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
 </head>
 
@@ -23,7 +23,7 @@ include 'session.php';
 
     <!-- form container -->
     <div class="row fluid bg-color justify-content-center">
-        <div class="col-md-9 mt-5">
+        <div class="col-md-5 mt-5">
             <div class="top_text m-3 mt-5 ps-3 text-warning">
                 <h2>Contact</h2>
             </div>

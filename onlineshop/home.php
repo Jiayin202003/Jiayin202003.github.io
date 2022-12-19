@@ -8,7 +8,7 @@ include 'session.php';
 <html>
 
 <head>
-    <title>J_Home</title>
+    <title>Home</title>
     <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
 </head>
 

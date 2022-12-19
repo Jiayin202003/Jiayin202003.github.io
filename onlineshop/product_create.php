@@ -8,7 +8,7 @@ include 'session.php';
 <html>
 
 <head>
-    <title>J_ProductCreate</title>
+    <title>ProductCreate</title>
     <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
 </head>
 
