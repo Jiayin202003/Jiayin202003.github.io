@@ -42,6 +42,9 @@ include 'session.php';
                 if ($action == 'failed') {
                     echo "<div class='alert alert-danger'>Unable to Delete due Customer has created order.</div>";
                 }
+                if ($action == 'successful') {
+                    echo "<div class='alert alert-success'>Customer Account create sucessful.</div>";
+                }
 
                 // select all data
                 $query = "SELECT customer_id, username, first_name, last_name, gender, date_of_birth, registration FROM customer ORDER BY customer_id DESC";
@@ -62,7 +65,7 @@ include 'session.php';
 
                     //creating our table heading
                     echo "<tr>";
-                    echo "<th>Customer_id</th>";
+                    echo "<th>Customer ID</th>";
                     echo "<th>Username</th>";
                     echo "<th>First Name</th>";
                     echo "<th>Last Name</th>";

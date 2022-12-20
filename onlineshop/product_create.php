@@ -106,7 +106,7 @@ include 'session.php';
 
                             // Execute the query
                             if ($stmt->execute()) {
-                                echo "<div class='alert alert-success'>Record was saved.</div>";
+                                header("Location: http://localhost/webdev/onlineshop/product_list.php?action=success");
                             } else {
                                 echo "<div class='alert alert-danger'>Unable to save record.</div>";
                             }

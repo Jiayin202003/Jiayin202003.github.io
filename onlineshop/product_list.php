@@ -44,6 +44,9 @@ include 'session.php';
                 if ($action == 'failed') {
                     echo "<div class='alert alert-danger'>Unable to Delete due Someone has ordered product.</div>";
                 }
+                if ($action == 'successful') {
+                    echo "<div class='alert alert-success'>Product create sucessful.</div>";
+                }
 
 
                 // select all data
@@ -65,10 +68,10 @@ include 'session.php';
 
                     //creating our table heading
                     echo "<tr>";
-                    echo "<th>ID</th>";
+                    echo "<th>Product ID</th>";
                     echo "<th>Name</th>";
                     echo "<th>Description</th>";
-                    echo "<th>Price</th>";
+                    echo "<th>Price (RM)</th>";
                     echo "<th></th>";
                     echo "</tr>";
 
@@ -83,7 +86,7 @@ include 'session.php';
                         echo "<td>{$id}</td>";
                         echo "<td>{$name}</td>";
                         echo "<td>{$description}</td>";
-                        echo "<td>{$price}</td>";
+                        echo "<td class='text-center'>{$price}</td>";
                         echo "<td>";
                         // read one record
                         echo "<a href='product_read.php?id={$id}' class='btn btn-info'>Read</a>";

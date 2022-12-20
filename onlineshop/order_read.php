@@ -37,52 +37,15 @@ include 'session.php';
                 //include database connection
                 include 'config/database.php';
 
-                // read current record's data
-                try {
+                // select id, quantity, price each from order_detail
+                $query = "SELECT quantity, price_each, name, price, promotion_price, total_amount FROM order_details o INNER JOIN products p ON o.product_id = p.id INNER JOIN order_summary s ON o.order_id = s.order_id WHERE o.order_id = ?";
 
-                    // prepare select query : order_summary
-                    $query = "SELECT order_id, total_amount FROM order_summary WHERE order_id = ? LIMIT 0,1";
-                    $stmt = $con->prepare($query);
-                    $stmt->bindParam(1, $order_id);
-                    $stmt->execute();
-                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                $stmt = $con->prepare($query);
+                $stmt->bindParam(1, $order_id);
+                $stmt->execute();
+                $num = $stmt->rowCount();
 
-                    $total_amount = $row['total_amount'];
-
-                    // prepare select query : order_details
-                    $query = "SELECT order_details_id, order_id, product_id, quantity, price_each FROM order_details WHERE order_id = ? LIMIT 0,1";
-                    $stmt = $con->prepare($query);
-                    // this is the first question mark
-                    $stmt->bindParam(1, $order_id);
-                    // execute our query
-                    $stmt->execute();
-                    // store retrieved row to a variable
-                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                    // values to fill up our form
-                    $order_details_id = $row['order_details_id'];
-                    $product_id = $row['product_id'];
-                    $price_each = $row['price_each'];
-                    $quantity = $row['quantity'];
-
-                    // prepare select query : products
-                    $query = "SELECT product_id,name FROM products WHERE product_id =:id ";
-                    $stmt = $con->prepare($query);
-                    $stmt->bindParam(':id', $product_id);
-                    $stmt->execute();
-                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                    $name = $row['name'];
-
-                    $total_amount_each = (float)$price_each * (int)$quantity;
-                }
-
-                // show error
-                catch (PDOException $exception) {
-                    die('ERROR: ' . $exception->getMessage());
-                }
                 ?>
-
 
                 <!-- HTML read one record table will be here -->
                 <!--we have our html table here where the record will be displayed-->
@@ -90,22 +53,31 @@ include 'session.php';
                     <thead>
                         <tr>
                             <th scope="col">Product</th>
-                            <th scope="col">Price Each</th>
+                            <th scope="col">Price Each (RM)</th>
                             <th scope="col">Quantity</th>
-                            <th scope="col">Total Amount</th>
+                            <th scope="col">Total Amount (RM)</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php
+                        if ($num > 0) {
+                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                extract($row); ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($name, ENT_QUOTES); ?></td>
+                                    <td><?php if ($promotion_price == 0) {
+                                            echo number_format((float)htmlspecialchars($price, ENT_QUOTES), 2, '.', '');
+                                        } else {
+                                            echo number_format((float)htmlspecialchars($promotion_price, ENT_QUOTES), 2, '.', '');
+                                        } ?></td>
+                                    <td><?php echo htmlspecialchars($quantity, ENT_QUOTES); ?></td>
+                                    <td><?php echo number_format((float)htmlspecialchars($price_each, ENT_QUOTES), 2, '.', ''); ?></td>
+                                </tr>
+                        <?php }
+                        } ?>
                         <tr>
-                            <td scope="row"><?php echo htmlspecialchars($name, ENT_QUOTES); ?></td>
-                            <td><?php echo htmlspecialchars($price_each, ENT_QUOTES); ?></td>
-                            <td><?php echo htmlspecialchars($quantity, ENT_QUOTES); ?></td>
-                            <td><?php echo htmlspecialchars($total_amount_each, ENT_QUOTES); ?></td>
-                        </tr>
-                        </tr>
-                        <tr>
-                            <td colspan="3"><b>Grand Total Amount</b></td>
-                            <td><?php echo htmlspecialchars($total_amount, ENT_QUOTES); ?></td>
+                            <th colspan="3">Grand Total (RM)</th>
+                            <td><?php echo number_format((float)htmlspecialchars($total_amount, ENT_QUOTES), 2, '.', ''); ?></td>
                         </tr>
                     </tbody>
                 </table>

@@ -41,9 +41,11 @@ include 'session.php';
                 if ($action == 'deleted') {
                     echo "<div class='alert alert-success'>Record was deleted.</div>";
                 }
+                if ($action == 'successful') {
+                    echo "<div class='alert alert-success'>Order sucessful.</div>";
+                }
 
-                // select all data
-                $query = "SELECT order_id, customer_id, order_date, total_amount FROM order_summary ORDER BY order_id DESC";
+                $query = "SELECT o.order_id, o.customer_id, o.order_date, o.total_amount, c.first_name, c.last_name FROM order_summary o INNER JOIN customer c ON c.customer_id = o.customer_id ORDER BY order_id DESC";
                 $stmt = $con->prepare($query);
                 $stmt->execute();
 
@@ -63,8 +65,10 @@ include 'session.php';
                     echo "<tr>";
                     echo "<th>Order ID</th>";
                     echo "<th>Customer ID</th>";
+                    echo "<th>First Name</th>";
+                    echo "<th>Last Name</th>";
                     echo "<th>Order Date</th>";
-                    echo "<th>Total Order Amount</th>";
+                    echo "<th class= text-center>Total Amount (RM)</th>";
                     echo "<th></th>";
                     echo "</tr>";
 
@@ -78,8 +82,10 @@ include 'session.php';
                         echo "<tr>";
                         echo "<td>{$order_id}</td>";
                         echo "<td>{$customer_id}</td>";
+                        echo "<td>{$first_name}</td>";
+                        echo "<td>{$last_name}</td>";
                         echo "<td>{$order_date}</td>";
-                        echo "<td>{$total_amount}</td>";
+                        echo "<td class= \"col-2 text-center\" >" . number_format((float)$total_amount, 2, '.', '') . "</td>";
                         echo "<td>";
                         // read one record
                         echo "<a href='order_read.php?order_id={$order_id}' class='btn btn-info'>Read</a>";

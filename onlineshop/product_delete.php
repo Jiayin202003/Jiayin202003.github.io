@@ -32,7 +32,7 @@ include 'session.php';
     try {
         // get record ID
         // isset() is a PHP function used to verify if a value is there or not
-        $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : die('ERROR: Record ID not found.');
+        $id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Record ID not found.');
 
         // o.pro : order details table
         // p.pro : products table
