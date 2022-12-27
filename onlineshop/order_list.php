@@ -67,7 +67,7 @@ include 'session.php';
                     echo "<th>Customer ID</th>";
                     echo "<th>First Name</th>";
                     echo "<th>Last Name</th>";
-                    echo "<th>Order Date</th>";
+                    echo "<th>Order Date & Time</th>";
                     echo "<th class= text-center>Total Amount (RM)</th>";
                     echo "<th></th>";
                     echo "</tr>";
