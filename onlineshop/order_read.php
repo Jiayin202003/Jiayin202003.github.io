@@ -58,7 +58,7 @@ include 'session.php';
 
                 <!-- HTML read one record table will be here -->
                 <!--we have our html table here where the record will be displayed-->
-
+                <!-- TABLE form -->
                 <table class="table table-bordered mt-4">
                     <thead>
                         <tr>

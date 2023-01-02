@@ -56,17 +56,11 @@ include 'session.php';
 
                 // this is how to get number of rows returned
                 $num = $stmt->rowCount();
-
-                // link to create record form
                 echo "<a href='product_create.php' class='btn btn-warning m-b-1em mb-3'>Create New Product</a>";
-
-                //check if more than 0 record found
                 if ($num > 0) {
 
-                    // data from database will be here
                     echo "<table class='table table-hover table-responsive table-bordered'>"; //start table
 
-                    //creating our table heading
                     echo "<tr>";
                     echo "<th>Product ID</th>";
                     echo "<th>Name</th>";
@@ -90,13 +84,10 @@ include 'session.php';
                         echo "<td class= \"col-1 text-end\" >" . ($price) . "</td>";
                         echo "<td class= \"col-2 text-end\" >" . ($promotion_price) . "</td>";
                         echo "<td>";
-                        // read one record
+
+                        //btn link to other pages
                         echo "<a href='product_read.php?id={$id}' class='btn btn-info'>Read</a>";
-
-                        // we will use this links on next part of this post
                         echo "<a href='product_update.php?id={$id}' class='btn btn-primary ms-1'>Edit</a>";
-
-                        // we will use this links on next part of this post
                         echo "<a href='#' onclick='delete_user({$id});'  class='btn btn-danger ms-1'>Delete</a>";
                         echo "</td>";
                         echo "</tr>";

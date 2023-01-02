@@ -45,6 +45,8 @@ include 'session.php';
                     echo "<div class='alert alert-success'>Order sucessful.</div>";
                 }
 
+                //o.cus : order summary 
+                //c.cus : cudtomer table
                 $query = "SELECT o.order_id, o.customer_id, o.order_date, o.total_amount, c.first_name, c.last_name FROM order_summary o INNER JOIN customer c ON c.customer_id = o.customer_id ORDER BY order_id DESC";
                 $stmt = $con->prepare($query);
                 $stmt->execute();

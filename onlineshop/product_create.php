@@ -119,7 +119,7 @@ include 'session.php';
                 }
 
                 ?>
-
+                <!-- TABLE form -->
                 <!-- html form here where the product information will be entered -->
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                     <table class='table table-hover table-responsive table-bordered mb-5'>

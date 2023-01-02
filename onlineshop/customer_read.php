@@ -71,6 +71,7 @@ include 'session.php';
 
                 <!-- HTML read one record table will be here -->
                 <!--we have our html table here where the record will be displayed-->
+                <!--htmlspecialchars：converts some predefined characters to HTML entities.-->
                 <table class='table table-hover table-responsive table-bordered'>
                     <tr>
                         <td>Username</td>

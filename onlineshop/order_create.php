@@ -48,6 +48,7 @@ include 'session.php';
                         $customer_id = htmlspecialchars(strip_tags($_POST['username']));
                     }
 
+                    //forloop
                     for ($x = 0; $x < count($product); $x++) {
 
                         if (empty($product[0])) {
@@ -69,8 +70,7 @@ include 'session.php';
                     if (empty($Err_msg)) {
                         $total_amount = 0;
 
-                        //set rule/conditions
-                        //run loop 3 times
+                        //forloop
                         for ($x = 0; $x < count($product); $x++) {
 
                             $query = "SELECT price, promotion_price FROM products WHERE id = :id";
@@ -91,11 +91,10 @@ include 'session.php';
                                     $price = $row['promotion_price'];
                                 }
                             }
-                            //combine prvious total_amount with new ones, loop (3 times)
+                            //combine prvious total_amount with new ones, forloop
                             $total_amount = $total_amount + ((float)$price * (int)$quantity[$x]);
                         }
 
-                        /* echo $total_amount; */
 
                         $order_date = date('Y-m-d H:i:s');
                         $query = "INSERT INTO order_summary SET customer_id=:customer_id, order_date=:order_date, total_amount=:total_amount";
@@ -104,7 +103,7 @@ include 'session.php';
                         $stmt->bindParam(':order_date', $order_date);
                         $stmt->bindParam(':total_amount', $total_amount);
 
-                        //send data to 'order_summary' table in myphp
+                        //send data to 'order_summary' table
                         if ($stmt->execute()) {
                             //if success, put 'order_id' that created > 'order details' table
                             //autoincreatment to create 'order_id'
@@ -216,7 +215,6 @@ include 'session.php';
                                                     } else {
                                                         echo " (RM$promotion_price)";
                                                     } ?>
-
                                                 </option>
                                         <?php }
                                         }
@@ -234,17 +232,15 @@ include 'session.php';
                         <div class="col-12 mb-2">
                             <input type="button" value="Add More" class="add_one btn btn-warning" />
                             <input type="button" value="Delete" class="delete_one btn btn-warning" />
-                            <input type='submit' value='Order' class=' btn btn-danger' />
+                            <input type='submit' value='Order' class='btn btn-danger' />
                         </div>
-
-
-
                     </table>
 
                 </form>
 
             </div>
         </div>
+        <!-- confirm delete record will be here -->
         <script>
             document.addEventListener('click', function(event) {
                 if (event.target.matches('.add_one')) {
@@ -261,7 +257,7 @@ include 'session.php';
                 }
             }, false);
         </script>
-        <!-- confirm delete record will be here -->
+
     </div><!-- end .container -->
 </body>
 

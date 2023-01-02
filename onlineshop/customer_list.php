@@ -46,12 +46,11 @@ include 'session.php';
                     echo "<div class='alert alert-success'>Customer Account create sucessful.</div>";
                 }
 
-                // select all data
+                // select data from certain table
                 $query = "SELECT customer_id, username, first_name, last_name, gender, date_of_birth, registration FROM customer ORDER BY customer_id DESC";
                 $stmt = $con->prepare($query);
                 $stmt->execute();
 
-                // this is how to get number of rows returned
                 $num = $stmt->rowCount();
 
                 // link to create record form

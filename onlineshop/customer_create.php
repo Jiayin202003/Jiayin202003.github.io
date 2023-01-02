@@ -50,6 +50,7 @@ include 'session.php';
                         $flag = false;
 
                         // posted values, label to same var
+                        // blue: database, orange: user wrote 
                         $username = htmlspecialchars(strip_tags($_POST['username']));
                         $password = md5($_POST['password']);
                         $confirm_pass = md5($_POST['confirm_password']);
@@ -102,41 +103,21 @@ include 'session.php';
                             $diff = (strtotime($date2) - strtotime($date_of_birth));
                             $years = floor($diff / (365 * 60 * 60 * 24));
 
+                            //must be 18yrold and above, if not: 
                             if ($years < 18) {
                                 echo "<div class='alert alert-danger'>You have to be 18 years old and above.*</div>";
                                 $flag = true;
                             }
                         }
 
-                        // insert query, to deal with database, send in 
                         $query = "SELECT username FROM customer WHERE username=:username";
-                        // prepare query for execution
                         $stmt = $con->prepare($query);
-                        // bind the parameters
                         $stmt->bindParam(':username', $username);
-                        // Execute the query
                         $stmt->execute();
                         $num = $stmt->rowCount();
 
                         //if num 1 = found username from database
                         if ($num > 0) {
-                            echo "<div class='alert alert-danger'>Username has been taken.</div>";
-                            $flag = true;
-                        }
-
-                        // insert query, to deal with database, send in 
-                        $query = "SELECT username FROM customer WHERE username=:username";
-                        // prepare query for execution
-                        $stmt = $con->prepare($query);
-                        // bind the parameters
-                        $stmt->bindParam(':username', $username);
-                        // Execute the query
-                        $stmt->execute();
-                        $num = $stmt->rowCount();
-
-                        //if num 1 = found username from database
-                        if ($num > 0) {
-
                             echo "<div class='alert alert-danger'>Username has been taken.</div>";
                             $flag = true;
                         }
@@ -177,6 +158,7 @@ include 'session.php';
                 }
                 ?>
 
+                <!-- TABLE form-->
                 <!-- html form here where the product information will be entered -->
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                     <table class='table table-hover table-responsive table-bordered mb-5'>
