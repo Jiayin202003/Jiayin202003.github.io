@@ -44,13 +44,8 @@ include 'session.php';
                     $query = "SELECT id, name, description, price, promotion_price, manufacture_date, expired_date FROM products WHERE id = ? LIMIT 0,1";
                     $stmt = $con->prepare($query);
 
-                    // this is the first question mark
                     $stmt->bindParam(1, $id);
-
-                    // execute our query
                     $stmt->execute();
-
-                    // store retrieved row to a variable
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
                     // values to fill up our form

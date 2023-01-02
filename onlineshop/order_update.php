@@ -20,8 +20,10 @@ include 'session.php';
     <?php
     include 'nav.php';
     include 'config/database.php';
+    ?>
 
-    // after submit
+    <?php
+    // after submit: UPDATE
     if ($_POST) {
         $product = $_POST["product"];
         $quantity = $_POST["quantity"];
@@ -97,8 +99,6 @@ include 'session.php';
     }
     ?>
 
-
-
     <!-- container -->
     <div class="container">
         <div class="row fluid bg-color justify-content-center">
@@ -153,6 +153,7 @@ include 'session.php';
                             echo "<b>Order Date :</b> $order_date";
                         } ?>
 
+                        <!-- TABLE form -->
                         <table class='table table-hover table-responsive table-bordered'>
                             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?order_id={$order_id}"); ?>" method="post">
 
@@ -198,6 +199,7 @@ include 'session.php';
                                         </div>
                                     </div>
                                 <?php } ?>
+
                                 <div class="col-12 mb-2">
                                     <input type='submit' value='Save changes' class=' btn btn-warning' />
                                     <a href='order_read.php' class='btn btn-danger'>Back to order list</a>

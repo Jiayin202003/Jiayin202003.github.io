@@ -42,7 +42,6 @@ include 'session.php';
                 // read current record's data
                 // read data > insert to text fill, update it
                 try {
-                    // prepare select query
                     $query = "SELECT customer_id, username, password, first_name, last_name, gender, date_of_birth FROM customer WHERE customer_id = ? LIMIT 0,1";
                     $stmt = $con->prepare($query);
 
@@ -78,7 +77,7 @@ include 'session.php';
                     // alert signal
                     $flag = false;
 
-                    // take form posted values
+                    // take form posted values, user wrote
                     $first_name = htmlspecialchars(strip_tags($_POST['first_name']));
                     $last_name = htmlspecialchars(strip_tags($_POST['last_name']));
                     $gender = htmlspecialchars(strip_tags($_POST['gender']));

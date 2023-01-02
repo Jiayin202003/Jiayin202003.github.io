@@ -42,7 +42,7 @@ include 'session.php';
         $stmt->execute();
         $num = $stmt->rowCount();
 
-        //if num > 0 means it found related info in database
+        //if num 1: means it found related info in database
         if ($num > 0) {
             header('Location:customer_list.php?action=failed');
         } else {
