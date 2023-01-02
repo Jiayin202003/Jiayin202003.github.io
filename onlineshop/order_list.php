@@ -13,7 +13,7 @@ include 'session.php';
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-<link rel="icon" href="img/logo_yellow.png" sizes="32x32" type="image/png">
+<link rel="icon" href="img/buzz.png" sizes="32x32" type="image/png">
 
 <body>
     <?php
@@ -25,7 +25,7 @@ include 'session.php';
         <div class="row fluid bg-color justify-content-center">
             <div class="col-md-10">
                 <div class="page-header top_text mt-5 mb-3 text-warning">
-                    <h2>Read Order</h2>
+                    <h2>Order List</h2>
                 </div>
 
                 <!-- html form to create product will be here -->
@@ -41,7 +41,7 @@ include 'session.php';
                 if ($action == 'deleted') {
                     echo "<div class='alert alert-success'>Record was deleted.</div>";
                 }
-                if ($action == 'successful') {
+                if ($action == 'success') {
                     echo "<div class='alert alert-success'>Order sucessful.</div>";
                 }
 
@@ -85,10 +85,13 @@ include 'session.php';
                         echo "<td>{$first_name}</td>";
                         echo "<td>{$last_name}</td>";
                         echo "<td>{$order_date}</td>";
-                        echo "<td class= \"col-2 text-center\" >" . number_format((float)$total_amount, 2, '.', '') . "</td>";
+                        echo "<td class= \"col-2 text-end\" >" . $total_amount . "</td>";
                         echo "<td>";
                         // read one record
                         echo "<a href='order_read.php?order_id={$order_id}' class='btn btn-info'>Read</a>";
+
+                        // we will use this links on next part of this post
+                        echo "<a href='order_update.php?order_id={$order_id}' class='btn btn-primary ms-1'>Edit</a>";
 
                         // we will use this links on next part of this post
                         echo "<a href='#' onclick='delete_user({$order_id});'  class='btn btn-danger ms-1'>Delete</a>";
@@ -105,20 +108,26 @@ include 'session.php';
                 }
                 ?>
 
-            </div> <!-- end .container -->
+            </div>
+        </div>
+    </div> <!-- end .container -->
 
-            <!-- confirm delete record will be here -->
-            <script type='text/javascript'>
-                // confirm record deletion
-                function delete_user(order_id) {
-                    var answer = confirm('Are you sure? ');
-                    if (answer) {
-                        // if user clicked ok,
-                        // pass the id to delete.php and execute the delete query
-                        window.location = 'order_delete.php?order_id=' + order_id;
-                    }
-                }
-            </script>
+    <?php
+    include 'footer.php';
+    ?>
+
+    <!-- confirm delete record will be here -->
+    <script type='text/javascript'>
+        // confirm record deletion
+        function delete_user(order_id) {
+            var answer = confirm('Are you sure? ');
+            if (answer) {
+                // if user clicked ok,
+                // pass the id to delete.php and execute the delete query
+                window.location = 'order_delete.php?order_id=' + order_id;
+            }
+        }
+    </script>
 
 </body>
 

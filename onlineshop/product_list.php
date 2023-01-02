@@ -13,7 +13,7 @@ include 'session.php';
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-<link rel="icon" href="img/logo_yellow.png" sizes="32x32" type="image/png">
+<link rel="icon" href="img/buzz.png" sizes="32x32" type="image/png">
 
 <body>
     <?php
@@ -25,7 +25,7 @@ include 'session.php';
         <div class="row fluid bg-color justify-content-center">
             <div class="col-md-10">
                 <div class="page-header top_text mt-5 mb-3 text-warning">
-                    <h2>Read Products</h2>
+                    <h2>Product List</h2>
                 </div>
 
                 <!-- html form to create product will be here -->
@@ -44,13 +44,13 @@ include 'session.php';
                 if ($action == 'failed') {
                     echo "<div class='alert alert-danger'>Unable to Delete due Someone has ordered product.</div>";
                 }
-                if ($action == 'successful') {
+                if ($action == 'success') {
                     echo "<div class='alert alert-success'>Product create sucessful.</div>";
                 }
 
 
                 // select all data
-                $query = "SELECT id, name, description, price FROM products ORDER BY id DESC";
+                $query = "SELECT id, name, description, price, promotion_price FROM products ORDER BY id DESC";
                 $stmt = $con->prepare($query);
                 $stmt->execute();
 
@@ -72,6 +72,7 @@ include 'session.php';
                     echo "<th>Name</th>";
                     echo "<th>Description</th>";
                     echo "<th>Price (RM)</th>";
+                    echo "<th>Promotion Price (RM)</th>";
                     echo "<th></th>";
                     echo "</tr>";
 
@@ -85,8 +86,9 @@ include 'session.php';
                         echo "<tr>";
                         echo "<td>{$id}</td>";
                         echo "<td>{$name}</td>";
-                        echo "<td>{$description}</td>";
-                        echo "<td class='text-center'>{$price}</td>";
+                        echo "<td class= \"col-3\">{$description}</td>";
+                        echo "<td class= \"col-1 text-end\" >" . ($price) . "</td>";
+                        echo "<td class= \"col-2 text-end\" >" . ($promotion_price) . "</td>";
                         echo "<td>";
                         // read one record
                         echo "<a href='product_read.php?id={$id}' class='btn btn-info'>Read</a>";
@@ -109,21 +111,26 @@ include 'session.php';
                 }
                 ?>
 
-            </div> <!-- end .container -->
+            </div>
+        </div>
+    </div> <!-- end .container -->
 
-            <!-- confirm delete record will be here -->
-            <script type='text/javascript'>
-                // confirm record deletion
-                function delete_user(id) {
-                    var answer = confirm('Are you sure? ');
-                    if (answer) {
-                        // if user clicked ok,
-                        // pass the id to delete.php and execute the delete query
-                        window.location = 'product_delete.php?id=' + id;
-                    }
-                }
-            </script>
+    <?php
+    include 'footer.php';
+    ?>
 
+    <!-- confirm delete record will be here -->
+    <script type='text/javascript'>
+        // confirm record deletion
+        function delete_user(id) {
+            var answer = confirm('Are you sure? ');
+            if (answer) {
+                // if user clicked ok,
+                // pass the id to delete.php and execute the delete query
+                window.location = 'product_delete.php?id=' + id;
+            }
+        }
+    </script>
 
 </body>
 

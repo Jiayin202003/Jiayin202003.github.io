@@ -13,7 +13,7 @@ include 'session.php';
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-<link rel="icon" href="img/logo_yellow.png" sizes="32x32" type="image/png">
+<link rel="icon" href="img/buzz.png" sizes="32x32" type="image/png">
 
 <body>
     <?php
@@ -48,7 +48,6 @@ include 'session.php';
                         $customer_id = htmlspecialchars(strip_tags($_POST['username']));
                     }
 
-
                     for ($x = 0; $x < count($product); $x++) {
 
                         if (empty($product[0])) {
@@ -78,12 +77,14 @@ include 'session.php';
                             $stmt = $con->prepare($query);
                             $stmt->bindParam(':id', $product[$x]);
                             $stmt->execute();
-                            $row = $stmt->fetch(PDO::FETCH_ASSOC);
                             $num = $stmt->rowCount();
                             $price = 0;
 
                             //if database pro price is 0/no promo, price = row price
                             if ($num > 0) {
+
+                                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
                                 if ($row['promotion_price'] == 0) {
                                     $price = $row['price'];
                                 } else {
@@ -139,11 +140,10 @@ include 'session.php';
                                     $stmt->bindParam(':quantity', $quantity[$x]);
                                     $stmt->bindParam(':order_id', $order_id);
                                     $stmt->bindParam(':price_each', $price_each);
-                                    $stmt->execute();
+                                    if ($stmt->execute()) {
+                                        header("Location: http://localhost/webdev/onlineshop/order_list.php?action=success");
+                                    }
                                 }
-                            }
-                            if ($stmt->execute()) {
-                                header("Location: http://localhost/webdev/onlineshop/order_list.php?action=success");
                             }
                         }
                     } else {
@@ -203,7 +203,7 @@ include 'session.php';
                                 <div class="col-4 mb-2"><label class="order-form-label">Quantity</label>
                                 </div>
                                 <div class="col-8 mb-2">
-                                    <select class="form-select  mb-3" id="" name="product[]" aria-label="form-select-lg example">
+                                    <select class="form-select mb-3" id="" name="product[]" aria-label="form-select-lg example">
                                         <option value='' selected>Choose your product </option>
 
                                         <?php if ($num > 0) {

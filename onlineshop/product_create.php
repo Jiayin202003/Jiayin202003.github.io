@@ -14,7 +14,7 @@ include 'session.php';
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-<link rel="icon" href="img/logo_yellow.png" sizes="32x32" type="image/png">
+<link rel="icon" href="img/buzz.png" sizes="32x32" type="image/png">
 
 <body>
     <?php
@@ -60,37 +60,33 @@ include 'session.php';
                         } elseif (empty($manufacture_date)) {
                             echo "<div class='alert alert-danger'>Please insert the Manufacture Date.</div>";
                             $flag = true;
-                        } elseif (empty($expired_date)) {
-                            echo "<div class='alert alert-danger'>Please insert the Expired Date.</div>";
-                            $flag = true;
                         }
 
-                        // promo price 
-                        if (($_POST["promotion_price"]) > ($_POST['price'])) {
+                        // promotion price
+                        if (empty($promotion_price)) {
+                            $promotion_price = NULL;
+                        } else if (($_POST["promotion_price"]) > ($_POST['price'])) {
                             $proErr = "<div class='alert alert-danger'>Promotion price should be cheaper than original price.</div>";
                             $flag = true;
                             echo $proErr;
                         } else {
-                            $promotion_price = $_POST['price'];
+                            $promotion_price = $_POST['promotion_price'];
                         }
 
                         // expired date
-                        if (empty($_POST["expired_date"])) {
-                            $expErr = "<div class='alert alert-danger'>Please enter the expired date.</div>";
+                        if (empty($expired_date)) {
+                            $expired_date = NULL;
+                        } else if (($_POST["expired_date"]) < ($_POST["manufacture_date"])) {
+                            $expErr = "<div class='alert alert-danger'>Expired date should be later than manufacture date.</div>";
                             $flag = true;
                             echo $expErr;
                         } else {
-                            $expired_date = $_POST["expired_date"];
-                            if (($_POST["expired_date"]) < ($_POST["manufacture_date"])) {
-                                $expErr = "<div class='alert alert-danger'>Expired date should be later than manufacture date.</div>";
-                                $flag = true;
-                                echo $expErr;
-                            }
+                            $expired_date = $_POST['expired_date'];
                         }
 
                         if ($flag == false) {
                             // insert query, to deal with database, send in 
-                            $query = "INSERT INTO products SET name=:name, description=:description, price=:price, created=:created, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date";
+                            $query = "INSERT INTO products SET name=:name, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date, created=:created";
                             // prepare query for execution
                             $stmt = $con->prepare($query);
                             // bind the parameters

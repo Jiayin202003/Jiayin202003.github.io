@@ -13,7 +13,7 @@ include 'session.php';
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-<link rel="icon" href="img/logo_yellow.png" sizes="32x32" type="image/png">
+<link rel="icon" href="img/buzz.png" sizes="32x32" type="image/png">
 
 <body>
     <?php
@@ -25,7 +25,7 @@ include 'session.php';
         <div class="row fluid bg-color justify-content-center">
             <div class="col-md-10">
                 <div class="page-header top_text mt-5 mb-3 text-warning">
-                    <h2>Read Customers</h2>
+                    <h2>Customer List</h2>
                 </div>
 
                 <!-- html form to create product will be here -->
@@ -42,7 +42,7 @@ include 'session.php';
                 if ($action == 'failed') {
                     echo "<div class='alert alert-danger'>Unable to Delete due Customer has created order.</div>";
                 }
-                if ($action == 'successful') {
+                if ($action == 'success') {
                     echo "<div class='alert alert-success'>Customer Account create sucessful.</div>";
                 }
 
@@ -126,7 +126,11 @@ include 'session.php';
                 }
             </script>
         </div>
-    </div>
+    </div><!-- end .container -->
+
+    <?php
+    include 'footer.php';
+    ?>
 </body>
 
 </html>

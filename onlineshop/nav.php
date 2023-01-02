@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg bg-warning">
     <div class="container-fluid">
         <a class="navbar-brand" href="home.php">
-            <img src="img/logo.png" alt="Logo" width="30" height="30">
+            <img src="img/buzz2.png" alt="Logo" width="35" height="35">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -25,7 +25,7 @@
                     <a class="nav-link" href="contact_us.php">Contact Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="logout.php">Log Out</a>
+                    <a class="nav-link text-danger" href="logout.php">Log Out</a>
                 </li>
             </ul>
         </div>

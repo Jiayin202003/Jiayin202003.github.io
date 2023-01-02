@@ -11,9 +11,16 @@ session_start();
     <title>Log in</title>
     <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <link rel="icon" href="img/logo_yellow.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="img/buzz.png" sizes="32x32" type="image/png">
 
 </head>
+
+<style>
+    body {
+        background-image: url('img/coffee3-01.jpg');
+        background-size: cover;
+    }
+</style>
 
 <!-- container -->
 <div class="container">
@@ -46,6 +53,7 @@ session_start();
                     $stmt->execute();
                     $num = $stmt->rowCount();
 
+
                     //if num 1 = found username from database
                     if ($num > 0) {
 
@@ -56,21 +64,25 @@ session_start();
                         $password = $row['password'];
                         $acc_status = $row['acc_status'];
 
+
                         if ($password == md5($_POST['password'])) {
                             if ($acc_status == 'active') {
-                                // Set session variables
-                                // Store 'username' to user (box)
-                                // $_POST username = what user fill in
-                                $_SESSION["user"] = $_POST['username'];
-                                header("Location: http://localhost/webdev/onlineshop/home.php");
+                                $_SESSION['user'] = $_POST['username'];
+                                header("Location:http://localhost/webdev/onlineshop/home.php");
                             } else {
-                                $statusErr = "Your Account is suspended*";
+                                $statusErr = "<div class='text-danger mb-2'>Your Account is suspended*</div>";
                             }
                         } else {
-                            $pasErr = "Incorrect Password*";
+                            $pasErr = "<div class='text-danger mb-2'>Incorrect Password*</div>";
+                        }
+                        if (empty($_POST['password'])) {
+                            $pasErr = "<div class='text-danger mb-2'>Password is required*</div>";
                         }
                     } else {
-                        $useErr = "<div class='alert alert-danger'>User not found*</div>";
+                        $useErr = "<div class='text-danger mb-2'>Username not found*</div>";
+                    }
+                    if (empty($_POST['username'])) {
+                        $useErr = "<div class='text-danger mb-2'>Username & password is required*</div>";
                     }
                 }
                 ?>
@@ -80,8 +92,8 @@ session_start();
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <div class="display-flex pt-5 mt-5">
                             <div>
-                                <img src="img/logo_yellow.png" alt="Logo" width="50" height="50">
-                                <h1 class="h5 mt-3 mb-3 fw-normal">Please Sign-in.</h1>
+                                <img src="img/buzz.png" alt="Logo" width="50" height="50">
+                                <h1 class="text-light h5 mt-3 mb-3 fw-normal">Please Sign-in.</h1>
 
                                 <?php
                                 if (isset($_GET["action"])) {
@@ -115,7 +127,7 @@ session_start();
 
                             </div>
 
-                            <p class="mt-5 text-muted">&copy; 2017–2021</p>
+                            <p class="mt-3 text-muted">&copy;BuzzOnlineShop.2022</p>
                     </form>
         </div>
         </main>
