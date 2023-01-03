@@ -5,7 +5,7 @@ session_start();
 //!isset = does not exist
 if (!isset($_SESSION['user'])) {
     //ascess pass tak boleh
-    header("Location: http://localhost/webdev/onlineshop/login.php?action=declined");
+    header("Location: index.php?action=declined");
     //+ action, echo not authorise login 
 }
 ?>

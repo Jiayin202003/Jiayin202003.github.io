@@ -88,15 +88,14 @@ include 'session.php';
                 $stmt->bindParam(':quantity', $quantity[$x]);
                 $stmt->bindParam(':order_details_id', $order_details_id[$x]);
                 $stmt->bindParam(':price_each', $price_each);
-
-                if ($stmt->execute()) {
-                    echo "<div class='m-5 alert alert-success'>Record was updated.</div>";
-                } else {
-                    echo "<div class='m-5 alert alert-danger'>Unable to update record.</div>";
-                }
+                $stmt->execute();
             }
+            echo "<div class='m-5 alert alert-success'>Record was updated.</div>";
+        } else {
+            echo "<div class='m-5 alert alert-danger'>Unable to update record.</div>";
         }
     }
+
     ?>
 
     <!-- container -->

@@ -24,7 +24,7 @@ include 'session.php';
     <!-- container -->
     <div class="container">
         <div class="row fluid bg-color justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-10">
                 <div class="page-header top_text mt-5 mb-3 text-warning">
                     <h2>Order Read</h2>
                 </div>
@@ -59,7 +59,7 @@ include 'session.php';
                 <!-- HTML read one record table will be here -->
                 <!--we have our html table here where the record will be displayed-->
                 <!-- TABLE form -->
-                <table class="table table-bordered mt-4">
+                <table class="table table-bordered mt-5">
                     <thead>
                         <tr>
                             <th scope="col">Product</th>
@@ -77,8 +77,14 @@ include 'session.php';
                                 extract($row); ?>
                                 <tr>
                                     <td><?php echo htmlspecialchars($name, ENT_QUOTES); ?></td>
-                                    <td><?php echo "<div class = \"text-end\">" . htmlspecialchars($price_each, ENT_QUOTES); ?></td>
-                                    <td><?php echo "<div class = \"text-end\">" . htmlspecialchars($promotion_price, ENT_QUOTES); ?></td>
+                                    <td><?php echo "<div class = \"text-end\">" . htmlspecialchars($price, ENT_QUOTES); ?></td>
+                                    <td>
+                                        <?php if (htmlspecialchars($promotion_price, ENT_QUOTES) == NULL) {
+                                            echo "<div class = \"text-end\">-";
+                                        } else {
+                                            echo "<div class = \"text-end\">$promotion_price";
+                                        }; ?>
+                                    </td>
                                     <td><?php echo "<div class = \"text-end\">" . htmlspecialchars($quantity, ENT_QUOTES); ?></td>
                                     <td><?php echo "<div class = \"text-end\">" . htmlspecialchars($price_each, ENT_QUOTES); ?></td>
                                 </tr>

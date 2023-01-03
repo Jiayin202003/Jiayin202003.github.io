@@ -103,7 +103,7 @@ include 'session.php';
 
                             // Execute the query
                             if ($stmt->execute()) {
-                                header("Location: http://localhost/webdev/onlineshop/product_list.php?action=success");
+                                header("Location: product_list.php?action=success");
                             } else {
                                 echo "<div class='alert alert-danger'>Unable to save record.</div>";
                             }
@@ -156,7 +156,9 @@ include 'session.php';
                         </tr>
                         <tr>
                             <td>Expired Date</td>
-                            <td><input type='date' name='expired_date' class='form-control' value='<?php if (isset($_POST['expired_date'])) {
+                            <td><input type='date' name='expired_date' class='form-control' value='<?php if (isset($_POST['expired_date']) == NULL) {
+                                                                                                        echo "-";
+                                                                                                    } else {
                                                                                                         echo $_POST['expired_date'];
                                                                                                     } ?>' /></td>
                         </tr>

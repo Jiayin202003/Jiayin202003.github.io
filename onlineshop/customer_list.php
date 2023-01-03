@@ -70,7 +70,6 @@ include 'session.php';
                     echo "<th>Last Name</th>";
                     echo "<th>Gender</th>";
                     echo "<th>Date of Birth</th>";
-                    echo "<th>Registration Date & Time</th>";
                     echo "<th></th>";
                     echo "</tr>";
 
@@ -88,7 +87,6 @@ include 'session.php';
                         echo "<td>{$last_name}</td>";
                         echo "<td>{$gender}</td>";
                         echo "<td>{$date_of_birth}</td>";
-                        echo "<td>{$registration}</td>";
                         echo "<td>";
                         // read one record
                         echo "<a href='customer_read.php?customer_id={$customer_id}' class='btn btn-info'>Read</a>";

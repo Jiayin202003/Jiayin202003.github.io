@@ -140,7 +140,7 @@ include 'session.php';
                                     $stmt->bindParam(':order_id', $order_id);
                                     $stmt->bindParam(':price_each', $price_each);
                                     if ($stmt->execute()) {
-                                        header("Location: http://localhost/webdev/onlineshop/order_list.php?action=success");
+                                        header("Location: order_list.php?action=success");
                                     }
                                 }
                             }

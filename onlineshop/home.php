@@ -67,7 +67,7 @@ include 'session.php';
                             <h4 class="card-title">Customer</h4>
                             <hr class="bg-warning border-3 border-top border-warning">
                             <h6 class="card-subtitle mb-2 text-muted">Total number of Customer</h6>
-                            <p class="card-text text-dark"><?php echo $total_customer ?> user has been resgister</p>
+                            <p class="card-text text-dark"><?php echo $total_customer ?> user has been register</p>
                             <a href="customer_list.php" class="btn btn-warning">Customer List</a>
                         </div>
                     </div>

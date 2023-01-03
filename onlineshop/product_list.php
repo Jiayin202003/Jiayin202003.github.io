@@ -82,7 +82,11 @@ include 'session.php';
                         echo "<td>{$name}</td>";
                         echo "<td class= \"col-3\">{$description}</td>";
                         echo "<td class= \"col-1 text-end\" >" . ($price) . "</td>";
-                        echo "<td class= \"col-2 text-end\" >" . ($promotion_price) . "</td>";
+                        if (htmlspecialchars($promotion_price, ENT_QUOTES) == NULL) {
+                            echo "<td class= \"text-end\" > " . "-" . "</td>";
+                        } else {
+                            echo "<td class= \"text-end\" > $promotion_price</td>";
+                        };
                         echo "<td>";
 
                         //btn link to other pages

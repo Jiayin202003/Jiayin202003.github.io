@@ -78,10 +78,16 @@ include 'session.php';
                     <tr>
                         <td>Price</td>
                         <td><?php echo htmlspecialchars($price, ENT_QUOTES);  ?></td>
-                    </tr>
                     <tr>
                         <td>Promotion Price</td>
-                        <td><?php echo htmlspecialchars($promotion_price, ENT_QUOTES);  ?></td>
+                        <td>
+                            <?php
+                            if (htmlspecialchars($promotion_price, ENT_QUOTES) == NULL) {
+                                echo "-";
+                            } else {
+                                echo (htmlspecialchars($promotion_price, ENT_QUOTES));
+                            }; ?>
+                        </td>
                     </tr>
                     <tr>
                         <td>Manufacture Date</td>

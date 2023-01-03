@@ -96,6 +96,14 @@ include 'session.php';
                         $stmt->bindParam(':expired_date', $expired_date);
                         $stmt->bindParam(':id', $id);
 
+                        if (empty($promotion_price)) {
+                            $promotion_price = NULL;
+                        } else if (($_POST["promotion_price"]) > ($_POST["price"])) {
+                            $proErr = "Promotion price should be cheaper than original price *";
+                            echo $promErr;
+                            $flag = true;
+                        }
+
                         // Execute the query
                         if ($stmt->execute()) {
                             echo "<div class='alert alert-success'>Record was updated.</div>";
@@ -129,7 +137,11 @@ include 'session.php';
                         </tr>
                         <tr>
                             <td>Promotion Price</td>
-                            <td><input type='text' name='promotion_price' value="<?php echo htmlspecialchars($promotion_price, ENT_QUOTES);  ?>" class='form-control' /></td>
+                            <td><input type='text' name='promotion_price' value='<?php if (isset($_POST['promotion_price']) == NULL) {
+                                                                                        echo "-";
+                                                                                    } else {
+                                                                                        echo (htmlspecialchars($promotion_price, ENT_QUOTES));
+                                                                                    }; ?>' class='form-control' /></td>
                         </tr>
                         <tr>
                             <td>Manufacture Date</td>
@@ -137,7 +149,11 @@ include 'session.php';
                         </tr>
                         <tr>
                             <td>Expired Date</td>
-                            <td><input type='date' name='expired_date' value="<?php echo htmlspecialchars($expired_date, ENT_QUOTES);  ?>" class='form-control' /></td>
+                            <td><input type='date' name='expired_date' value='<?php if (isset($_POST['expired_date']) == NULL) {
+                                                                                    echo "-";
+                                                                                } else {
+                                                                                    echo $_POST['expired_date'];
+                                                                                } ?>' class='form-control' /></td>
                         </tr>
                         <tr>
                             <td></td>

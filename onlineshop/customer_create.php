@@ -142,7 +142,7 @@ include 'session.php';
 
                             // Execute the query
                             if ($stmt->execute()) {
-                                header("Location: http://localhost/webdev/onlineshop/customer_list.php?action=success");
+                                header("Location: customer_list.php?action=success");
                             } else {
                                 echo "<div class='alert alert-danger'>Unable to save record.</div>";
                             }
